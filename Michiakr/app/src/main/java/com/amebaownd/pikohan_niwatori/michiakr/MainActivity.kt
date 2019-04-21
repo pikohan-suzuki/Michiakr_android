@@ -4,21 +4,45 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import android.app.LoaderManager
+import android.content.Loader
 
-class MainActivity : AppCompatActivity() {
+import android.util.Log
+import java.util.ArrayList
+
+class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayList<Contents>> {
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<ArrayList<Contents>> {
+        val test =ContentsLoader(this)
+        return test
+    }
+
+    override fun onLoadFinished(loader: Loader<ArrayList<Contents>>?, data: ArrayList<Contents>?) {
+        if (data != null)
+            for (i in 0 until data.size) {
+                Log.d("This is Log",data.get(i).toString())
+            }
+    }
+
+    override fun onLoaderReset(loader: Loader<ArrayList<Contents>>?) {
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        loaderManager.initLoader(1, null, this)
+
         setTabLayout()
+
+        val asdfd=111
     }
 
-    private fun setTabLayout(){
-        val adapter = TabAdapter(supportFragmentManager,this)
+    private fun setTabLayout() {
+        val adapter = TabAdapter(supportFragmentManager, this)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
-        val tab:TabLayout.Tab = tabLayout.getTabAt(0)!!
-        tab.customView = adapter.getTabView(tabLayout,0)
+        val tab: TabLayout.Tab = tabLayout.getTabAt(0)!!
+        tab.customView = adapter.getTabView(tabLayout, 0)
     }
+
 }
