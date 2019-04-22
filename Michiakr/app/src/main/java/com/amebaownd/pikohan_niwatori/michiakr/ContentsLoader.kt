@@ -13,11 +13,11 @@ import javax.xml.xpath.XPathConstants
 import javax.xml.xpath.XPathFactory
 
 data class Contents(
-    private val title: String,
-    private val userName: String,
-    private val date: Date,
-    private val tags: List<String>,
-    private val like: Int
+     val title: String,
+     val userName: String,
+     val date: Date,
+     val tags: List<String>,
+     val like: Int
 )
 //data class Contents(private val title:List<String>, private val userName :List<String>,private val date : List<Date>, private val tags :List<List<String>>,private val like :List<Int>)
 
