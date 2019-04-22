@@ -8,23 +8,11 @@ import android.app.LoaderManager
 import android.content.Loader
 
 import android.util.Log
+import java.io.Serializable
 import java.util.ArrayList
 
-class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayList<Contents>> {
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<ArrayList<Contents>> {
-        val test =ContentsLoader(this)
-        return test
-    }
+class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayList<Contents>>,Serializable{
 
-    override fun onLoadFinished(loader: Loader<ArrayList<Contents>>?, data: ArrayList<Contents>?) {
-        if (data != null)
-            for (i in 0 until data.size) {
-                Log.d("This is Log",data.get(i).toString())
-            }
-    }
-
-    override fun onLoaderReset(loader: Loader<ArrayList<Contents>>?) {
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +22,7 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
 
         setTabLayout()
 
-        val asdfd=111
+        val asdfd = 111
     }
 
     private fun setTabLayout() {
@@ -45,4 +33,20 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
         tab.customView = adapter.getTabView(tabLayout, 0)
     }
 
+    override fun onCreateLoader(id: Int, args: Bundle?): Loader<ArrayList<Contents>> {
+        val test = ContentsLoader(this)
+        return test
+    }
+
+    override fun onLoadFinished(loader: Loader<ArrayList<Contents>>?, data: ArrayList<Contents>?) {
+        if (data != null)
+            for (i in 0 until data.size) {
+                Log.d("This is Log", data.get(i).toString())
+            }
+        val asdfadsf:Bundle = Bundle()
+        asdfadsf.putSerializable("contents",data)
+    }
+
+    override fun onLoaderReset(loader: Loader<ArrayList<Contents>>?) {
+    }
 }
