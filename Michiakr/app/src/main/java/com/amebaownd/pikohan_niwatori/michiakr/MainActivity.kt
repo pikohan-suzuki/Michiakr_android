@@ -13,20 +13,16 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayList<Contents>>,Serializable{
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         loaderManager.initLoader(1, null, this)
 
-        setTabLayout()
-
-        val asdfd = 111
     }
 
-    private fun setTabLayout() {
-        val adapter = TabAdapter(supportFragmentManager, this)
+    private fun setTabLayout(data:ArrayList<Contents>) {
+        val adapter = TabAdapter(supportFragmentManager, this,data)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
         val tab: TabLayout.Tab = tabLayout.getTabAt(0)!!
@@ -39,12 +35,12 @@ class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayLis
     }
 
     override fun onLoadFinished(loader: Loader<ArrayList<Contents>>?, data: ArrayList<Contents>?) {
-        if (data != null)
+        if (data != null) {
             for (i in 0 until data.size) {
                 Log.d("This is Log", data.get(i).toString())
             }
-        val asdfadsf:Bundle = Bundle()
-        asdfadsf.putSerializable("contents",data)
+            setTabLayout(data)
+        }
     }
 
     override fun onLoaderReset(loader: Loader<ArrayList<Contents>>?) {
