@@ -1,5 +1,6 @@
 package com.amebaownd.pikohan_niwatori.michiakr
 
+import org.json.JSONObject
 import java.io.BufferedInputStream
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection

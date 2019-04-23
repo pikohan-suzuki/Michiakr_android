@@ -13,11 +13,10 @@ class ContentsAdapter(
     private var contents:ArrayList<Contents>,
     private val isNewSort:Int) : RecyclerView.Adapter<ContentsAdapter.ContentsViewHolder>(){
     val inflater = LayoutInflater.from(context)
-    override fun onCreateViewHolder(parent: ViewGroup, position: Int): ContentsAdapter.ContentsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, position: Int): ContentsViewHolder {
         sortContents()
         val view = inflater.inflate(R.layout.contents_list_row,parent,false)
-        val viewHolder = ContentsViewHolder(view)
-        return viewHolder
+        return ContentsViewHolder(view)
     }
 
     override fun getItemCount(): Int = contents.size

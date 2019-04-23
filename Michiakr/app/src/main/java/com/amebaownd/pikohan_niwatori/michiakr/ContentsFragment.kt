@@ -3,6 +3,8 @@ package com.amebaownd.pikohan_niwatori.michiakr
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -24,11 +26,9 @@ class ContentsFragment() : Fragment() {
         val contents = changeToContents(data)
         val isNewSort = arguments?.getInt("isNewSort")
         if (contents != null && isNewSort != null) {
-            val test = ArrayList<Contents>()
-            test.add(Contents("aaa","aaa", Date(), listOf("aaa"),23))
-            val aaa = ContentsAdapter(view.context, test, 0)
-            contentsList.adapter =aaa
-//            contentsList.adapter=ContentsAdapter(view.context,contents,isNewSort)
+            contentsList.adapter =ContentsAdapter(view.context, contents, 0)
+            val layoutManager = LinearLayoutManager(view.context,LinearLayoutManager.VERTICAL,false)
+            contentsList.layoutManager = layoutManager
         }
         return view
     }

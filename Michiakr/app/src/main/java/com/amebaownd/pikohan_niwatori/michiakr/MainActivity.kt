@@ -6,10 +6,13 @@ import android.support.design.widget.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import android.app.LoaderManager
 import android.content.Loader
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 
 import android.util.Log
 import java.io.Serializable
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<ArrayList<Contents>>,Serializable{
 
