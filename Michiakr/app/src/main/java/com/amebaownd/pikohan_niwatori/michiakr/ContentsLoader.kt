@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.AsyncTaskLoader
 import org.json.JSONObject
 import java.io.InputStream
+import java.util.*
 import kotlin.collections.ArrayList
 
 data class Contents(
@@ -64,15 +65,21 @@ data class Contents(
 fun parseJSON(response: InputStream): ArrayList<Contents> {
     val json = response.read().toString()
     val obj =JSONObject(json)
-    val contents = obj.getJSONArray("")
+    val contents = obj.getJSONArray("data")
     val result = ArrayList<Contents>()
-    for(contents in 0 until contents.length()){
+    for(i in 0 until contents.length()){
+        val content = contents.getJSONObject(i)
+        val tags =content.getJSONArray("tags")
+        val tagArrayList= arrayListOf<String>()
+        for(j in 0 until tags.length()){
+            tagArrayList.add(tags.getJSONObject(j).getString("name"))
+        }
         result.add(Contents(
-            title="aaa",
-            userName = "aaa",
-            date = "aaa",
-            tags = arrayListOf("aaa"),
-            like = 1
+            title=content.getString("title"),
+            userName = content.getJSONObject("user").getString("name"),
+            date =content.getJSONObject("user").getString("created_at"),
+            tags = tagArrayList,
+            like = content.getString("likes_count").toInt()
         ))
     }
     return result
@@ -80,7 +87,7 @@ fun parseJSON(response: InputStream): ArrayList<Contents> {
 
 class ContentsLoader(context: Context) : AsyncTaskLoader<ArrayList<Contents>>(context) {
     override fun loadInBackground(): ArrayList<Contents>? {
-        val response = httpGet("https://michiakr.com/")
+        val response = httpGet("https://michiakr.com/api/articles")
 
         if (response != null) {
             return parseJSON(response)
