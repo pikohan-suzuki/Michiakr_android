@@ -2,10 +2,12 @@ package com.amebaownd.pikohan_niwatori.michiakr
 
 import org.json.JSONObject
 import java.io.BufferedInputStream
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-fun httpGet(url:String):BufferedInputStream?{
+fun httpGet(url:String):String?{
     val connect = URL(url).openConnection() as HttpsURLConnection
     connect.apply {
         requestMethod="GET"
@@ -16,7 +18,17 @@ fun httpGet(url:String):BufferedInputStream?{
     connect.connect()
 
     if(connect.responseCode in 200..299){
-        return BufferedInputStream(connect.inputStream)
+        val stream = connect.inputStream
+        val reader = BufferedReader(InputStreamReader(stream))
+        val buffer = StringBuffer()
+        var line:String?
+        while(true){
+            line=reader.readLine()
+            if(line==null)
+                break
+            buffer.append(line)
+        }
+        return buffer.toString()
     }
     return null
 }

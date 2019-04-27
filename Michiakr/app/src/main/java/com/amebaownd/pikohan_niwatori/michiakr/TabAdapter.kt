@@ -36,4 +36,5 @@ class TabAdapter(fm: FragmentManager, private val context: Context,private val d
         tab.textAlignment = View.TEXT_ALIGNMENT_CENTER
         return view
     }
+
 }
