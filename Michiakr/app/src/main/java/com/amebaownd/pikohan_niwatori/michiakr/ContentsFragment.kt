@@ -23,10 +23,11 @@ class ContentsFragment() : Fragment() {
         val view = inflater.inflate(R.layout.contents_fragment, container, false)
         val contentsList = view.findViewById<RecyclerView>(R.id.contents_list)
         val data = arguments?.getSerializable("contents") as ArrayList<Contents>
-        val contents = changeToContents(data)
         val isNewSort = arguments?.getInt("isNewSort")
-        if (contents != null && isNewSort != null) {
-            contentsList.adapter =ContentsAdapter(view.context, contents, 0)
+        val sortedContents = sortContents(isNewSort,data)
+        val contents = changeToContents(data)
+        if (contents != null) {
+            contentsList.adapter =ContentsAdapter(view.context, contents,isNewSort!!)
             val layoutManager = LinearLayoutManager(view.context,LinearLayoutManager.VERTICAL,false)
             contentsList.layoutManager = layoutManager
         }
@@ -39,5 +40,10 @@ class ContentsFragment() : Fragment() {
             result.add(Contents(data[i].title,data[i].userName,data[i].date,data[i].tags,data[i].like))
         }
         return result
+    }
+    private fun sortContents(isNewSort:Int?,contents:ArrayList<Contents>):ArrayList<Contents>{
+        if(isNewSort==0) contents.sortBy { it.date.time*-1}
+        else contents.sortBy { it.like*-1 }
+        return contents
     }
 }
